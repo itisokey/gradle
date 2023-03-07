@@ -49,6 +49,8 @@ public abstract class AbstractDependencyReportTask extends AbstractProjectBasedR
 
     private transient Set<Configuration> configurations;
 
+    private transient String format;
+
     @Override
     public ReportRenderer getRenderer() {
         return renderer;
@@ -128,6 +130,17 @@ public abstract class AbstractDependencyReportTask extends AbstractProjectBasedR
     @Option(option = "configuration", description = "The configuration to generate the report for.")
     public void setConfiguration(String configurationName) {
         this.configurations = Collections.singleton(ConfigurationFinder.find(getTaskConfigurations(), configurationName));
+    }
+
+    @Option(option = "format", description = "The format to generate the report for.")
+    public void setFormat(String formatName) {
+        this.format = formatName;
+    }
+
+
+    @Internal
+    public String getFormat() {
+        return format;
     }
 
     private Set<Configuration> getNonDeprecatedTaskConfigurations() {
