@@ -17,6 +17,7 @@
 package org.gradle.api.tasks.diagnostics.internal;
 
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.UnresolvableConfigurationResult;
@@ -33,7 +34,8 @@ public class ConfigurationDetails {
             configuration.getDescription(),
             canBeResolved,
             canBeResolved ? configuration.getIncoming().getResolutionResult().getRootComponent() : null,
-            canBeResolved ? null : UnresolvableConfigurationResult.of(configuration)
+            canBeResolved ? null : UnresolvableConfigurationResult.of(configuration),
+            canBeResolved ? null : configuration.getResolvedConfiguration()
         );
     }
 
@@ -55,18 +57,23 @@ public class ConfigurationDetails {
     @Nullable
     private final UnresolvableConfigurationResult unresolvableResult;
 
+    @Nullable
+    private final ResolvedConfiguration resolvedConfiguration;
+
     private ConfigurationDetails(
         String name,
         @Nullable String description,
         boolean canBeResolved,
         @Nullable Provider<ResolvedComponentResult> resolutionResultRoot,
-        @Nullable UnresolvableConfigurationResult unresolvableResult
+        @Nullable UnresolvableConfigurationResult unresolvableResult,
+        @Nullable ResolvedConfiguration resolvedConfiguration
     ) {
         this.name = name;
         this.description = description;
         this.canBeResolved = canBeResolved;
         this.resolutionResultRoot = resolutionResultRoot;
         this.unresolvableResult = unresolvableResult;
+        this.resolvedConfiguration = resolvedConfiguration;
     }
 
     public String getName() {
