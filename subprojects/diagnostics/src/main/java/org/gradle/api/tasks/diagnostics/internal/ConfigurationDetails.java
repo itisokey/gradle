@@ -98,4 +98,9 @@ public class ConfigurationDetails {
     public UnresolvableConfigurationResult getUnresolvableResult() {
         return unresolvableResult;
     }
+
+    @Nullable
+    public ResolvedConfiguration getResolvedConfiguration() {
+        return resolvedConfiguration;
+    }
 }
